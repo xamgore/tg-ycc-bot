@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <style>
+        :root {
+            --tg-theme-bg-color: black;
+            --tg-theme-text-color: white;
+            --tg-theme-button-color: cornflowerblue;
+            --tg-theme-link-color: royalblue;
+            --tg-theme-button-text-color: white;
+        }
+
+        body {
+            background: var(--tg-theme-bg-color);
+            color: var(--tg-theme-text-color);
+            padding: 10px;
+            font-family: system-ui, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+            display: grid;
+            grid-template-columns: auto 1fr;
+            row-gap: 2rem;
+            column-gap: 2rem;
+        }
+
+        mark {
+            padding: 2px;
+            background: var(--tg-theme-button-color);
+            color: var(--tg-theme-button-text-color);
+            font-weight: 500;
+        }
+
+        mark:hover {
+            background: var(--tg-theme-link-color);
+            cursor: pointer;
+        }
+    </style>
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+</head>
+<body>
+<!--<a href="https://youtu.be/nTjQT53N6d8?t=101s">https://www.youtube.com/watch?v=nTjQT53N6d8&t=101s</a>-->
+
+<% for (secs, text) in _groups { %><div><mark><%- secs | disp %></mark></div><div><%= text %></div><% } %>
+
+</body>
+<script>
+    let id = encodeURIComponent('<%= _id %>')
+    addEventListener('click', e => {
+        if (e.target.localName === 'mark') {
+            e.preventDefault()
+            open(`https://youtu.be/${id}`, '', 'noreferrer')
+        }
+    }, { passive: true })
+</script>
+</html>
