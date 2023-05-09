@@ -58,7 +58,8 @@ async fn message_handler(bot: Bot, msg: Message, cfg: &BotConfig) -> ResponseRes
 async fn get_subs(id: &str, cfg: &BotConfig) -> youtube_captions::error::Result<String> {
   let caps = cfg.youtube.get_caps_for_video(id).await?;
   let transcript = caps.fetch_srv1().await?;
-  let preview = transcript.content.iter().map(|it| it.value.trim()).take(60).join(" ");
+  let preview =
+    transcript.content.iter().flat_map(|it| it.value.split_whitespace()).take(60).join(" ");
 
   let preview = escape(&preview);
   let tg_app_url = cfg.tg_app_url.as_str();
