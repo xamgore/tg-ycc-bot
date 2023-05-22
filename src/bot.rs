@@ -5,8 +5,6 @@ use teloxide::utils::html::escape;
 
 use crate::youtube::Youtube;
 
-const COMMANDS: [&str; 4] = ["/cc", "/caps", "/cc@get_ytt_bot", "/caps@get_ytt_bot"];
-
 pub struct BotConfig {
   pub tg_app_url: String,
   pub youtube: Youtube,
@@ -26,7 +24,8 @@ pub async fn start(cfg: &'static BotConfig) {
 
 async fn message_handler(bot: Bot, msg: Message, cfg: &BotConfig) -> ResponseResult<()> {
   let text = msg.text().unwrap_or("");
-  let is_command = COMMANDS.iter().any(|&cmd| text.starts_with(cmd));
+  let is_command =
+    text == "/cc" || ["/cc ", "/cc@get_ytt_bot"].iter().any(|&cmd| text.starts_with(cmd));
   if !is_command && !msg.chat.is_private() {
     return Ok(());
   }
