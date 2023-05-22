@@ -1,0 +1,21 @@
+# cp systemd/X.service /etc/systemd/system
+# systemctl daemon-reload; systemctl enable --now X.service
+
+[Unit]
+Description=Telegram bot extracting subtitles from Youtube links
+Documentation=https://github.com/xamgore/tg-ycc-bot
+After=network-online.target
+Wants=network-online.target
+
+StartLimitIntervalSec=300
+StartLimitBurst=5
+
+[Service]
+ExecStart=/home/tg-ycc-bot/target/release/tg-ycc-bot
+WorkingDirectory=/home/tg-ycc-bot/target/release
+Type=simple
+Restart=on-failure
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target
