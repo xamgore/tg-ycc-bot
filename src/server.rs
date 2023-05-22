@@ -11,7 +11,7 @@ use youtube_captions::format::srv1::Transcript;
 use crate::bot::BotConfig;
 
 pub async fn start(cfg: &'static BotConfig) {
-  let app = Route::new().at("/*path", index).data(cfg);
+  let app = Route::new().at("/*path", index).data(cfg).with(poem::middleware::Tracing);
   Server::new(TcpListener::bind("0.0.0.0:53899")).name("tg-ycc-bot").run(app).await.unwrap();
 }
 
