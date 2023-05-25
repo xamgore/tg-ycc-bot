@@ -54,15 +54,15 @@ async fn message_handler(bot: Bot, msg: Message, cfg: &BotConfig) -> ResponseRes
   Ok(())
 }
 
-async fn get_subs(id: &str, cfg: &BotConfig) -> youtube_captions::error::Result<String> {
+async fn get_subs(id: &str, cfg: &BotConfig) -> youtube_captions::Result<String> {
   let caps = cfg.youtube.get_caps_for_video(id).await?;
   let transcript = caps.fetch_srv1().await?;
   let preview =
-    transcript.content.iter().flat_map(|it| it.value.split_whitespace()).take(60).join(" ");
+    transcript.segments.iter().flat_map(|it| it.value.split_whitespace()).take(60).join(" ");
 
   let preview = escape(&preview);
   let tg_app_url = cfg.tg_app_url.as_str();
-  let read_next = match caps.language.as_str() {
+  let read_next = match caps.lang_tag.as_str() {
     "en" => "read further",
     "ky" => "окууну улантуу",
     "ru" => "читать далее",

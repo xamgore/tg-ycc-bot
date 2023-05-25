@@ -42,13 +42,13 @@ impl Display for Time {
 
 fn group_close_captions(transcript: Transcript) -> Vec<(Time, String)> {
   let groups = transcript
-    .content
+    .segments
     .into_iter()
     .scan((0f32, f32::MIN), |(idx, end), it| {
-      if it.start > *end {
-        *idx = it.start;
+      if it.start_secs > *end {
+        *idx = it.start_secs;
       }
-      *end = it.end().max(*end);
+      *end = it.end_secs().max(*end);
       Some((*idx, it))
     })
     .group_by(|(idx, _)| *idx);

@@ -1,9 +1,8 @@
 use itertools::Itertools;
 use once_cell::sync::Lazy;
 use regex::Regex;
-use youtube_captions::language_tag::LanguageTag;
-use youtube_captions::scraper::CaptionScraper;
-use youtube_captions::{error::Result, scraper::DigestScraper};
+use youtube_captions::language_tags::LanguageTag;
+use youtube_captions::{CaptionScraper, DigestScraper, Result};
 
 pub struct Youtube {
   scraper: DigestScraper,
@@ -33,7 +32,7 @@ impl Youtube {
 
     let caption = tags
       .iter()
-      .flat_map(|lang| digest.captions.iter().filter(|cap| lang.matches(&cap.language)).cloned())
+      .flat_map(|lang| digest.captions.iter().filter(|cap| lang.matches(&cap.lang_tag)).cloned())
       .sorted_by(|a, b| a.is_generated.cmp(&b.is_generated))
       .next()
       .unwrap();
