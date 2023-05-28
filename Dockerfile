@@ -40,4 +40,5 @@ WORKDIR /user
 COPY --from=builder /user/target/x86_64-unknown-linux-musl/release/app ./
 USER user:user
 
+EXPOSE 53899
 CMD ["/user/app"]
